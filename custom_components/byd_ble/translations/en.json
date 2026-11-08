@@ -1,0 +1,136 @@
+{
+  "config": {
+    "flow_title": "{name}",
+    "step": {
+      "user": {
+        "title": "BYD Bluetooth key",
+        "description": "Home Assistant needs a Bluetooth key for your car. The car must be awake and within Bluetooth range: Home Assistant checks the key against it before saving anything. This is experimental. Treat the key like a car key.",
+        "menu_options": {
+          "qr": "Set up with a QR code (recommended)",
+          "paste": "Paste a credentials.json (advanced)"
+        }
+      },
+      "reauth_confirm": {
+        "title": "New Bluetooth key needed",
+        "description": "The car refused the stored Bluetooth key for {name}. The key may have expired, been replaced, or been taken by another smartwatch. Get a new one. Home Assistant checks it against the car before replacing the old one.",
+        "menu_options": {
+          "qr": "Set up with a QR code (recommended)",
+          "paste": "Paste a credentials.json (advanced)"
+        }
+      },
+      "reconfigure": {
+        "title": "Replace the Bluetooth key",
+        "description": "Get a new Bluetooth key for {name}. Home Assistant checks it against the car before replacing the stored key. The car must be awake and within Bluetooth range.",
+        "menu_options": {
+          "qr": "Set up with a QR code (recommended)",
+          "paste": "Paste a credentials.json (advanced)"
+        }
+      },
+      "paste": {
+        "title": "Paste credentials.json",
+        "description": "Paste the full contents of the credentials.json file made by the provisioning tool. The car must be awake and within Bluetooth range, because Home Assistant checks the key against it before saving.",
+        "data": {
+          "credentials": "credentials.json contents",
+          "fallback_lock": "Cloud lock to use when the car is out of Bluetooth range (optional)"
+        }
+      },
+      "qr": {
+        "title": "Before you continue",
+        "description": "Home Assistant will ask BYD's servers for a Bluetooth key for {name}. To do that it **presents itself to BYD as a Samsung smartwatch**, the same way the open source BydBleAutoLock project does, and you approve it by scanning a QR code in the official BYD app.\n\n- This is unofficial. BYD may treat it as outside its terms of use, and it could restrict the key or the account.\n- The BYD account you approve with has to be allowed a Bluetooth key. A separate account for Home Assistant is fine, but then the car's main account must allow it: open **Authorisation details** in the BYD app, check **Bluetooth key** is listed for that account, and if it is not, edit the authorisation and select it. BYD can leave it switched off.\n- BYD keeps one smartwatch key per car, and a new one may replace it. Anything still using the old key could stop working.\n- Use your own car.\n- No BYD password is entered here. Home Assistant keeps only the key.",
+        "data": {
+          "country": "BYD server region",
+          "fallback_lock": "Cloud lock to use when the car is out of Bluetooth range (optional)",
+          "understood": "I understand, and I want to continue"
+        },
+        "data_description": {
+          "country": "Only Australia has been tried on a real car."
+        }
+      },
+      "qr_scan": {
+        "title": "Approve in the BYD app",
+        "description": "Open the official BYD app, signed in to the account you want to use, and scan this code the way you would to approve a smartwatch. Then select **Submit**. The code works for about two minutes, and a new one appears if it runs out.",
+        "data": {
+          "qr_code": "Scan with the BYD app"
+        }
+      },
+      "qr_verify": {
+        "title": "Check the key on the car",
+        "description": "BYD issued the key, but the car did not answer over Bluetooth. Make sure it is awake, within range and not connected to a phone or watch, then select **Submit** to try again. You do not need a new QR code."
+      }
+    },
+    "error": {
+      "invalid_credentials": "That is not valid credentials JSON. It needs at least a dkey.",
+      "no_car": "No BYD car seen over Bluetooth, and no address came with the key. Stand closer and try again.",
+      "cannot_connect": "Could not connect to the car over Bluetooth. Is it awake, in range and not held by another device?",
+      "auth_failed": "The car did not accept the key. Get a new one (this slot may have been taken by another smartwatch).",
+      "must_understand": "Tick the box to continue.",
+      "cannot_reach_byd": "Could not reach BYD's servers. Check your internet connection and try again.",
+      "byd_refused": "BYD's servers refused the request. They may have changed. Try again later, or paste a credentials.json instead.",
+      "not_approved_yet": "The code has not been approved yet. Scan it in the BYD app, then select Submit again.",
+      "qr_expired": "That code expired or was declined. A new one is shown. Scan it and select Submit.",
+      "no_key": "BYD approved the code but did not send a key. A new code is shown. If you approved with a shared account, check Authorisation details in the car's main BYD account: Bluetooth key must be listed for it. If it is not, edit the authorisation and select it. If it keeps happening, open an issue."
+    },
+    "abort": {
+      "already_configured": "This car is already set up.",
+      "reauth_successful": "The new key works. Re-authentication complete.",
+      "reconfigure_successful": "The new key works and has been saved."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "BYD Bluetooth key options",
+        "description": "The optional code is asked for on every lock and unlock, so a voice assistant or automation that does not supply it is refused. It cannot protect unlock alone: Home Assistant requires it for lock too. Automations must include it in the service call. Do not also set it as the lock's default code, because Home Assistant would then supply it for every caller, voice assistants included.",
+        "data": {
+          "fallback_lock": "Cloud lock to use when the car is out of Bluetooth range (optional)",
+          "unlock_code": "Lock and unlock code, 4 to 12 digits (optional)"
+        }
+      }
+    },
+    "error": {
+      "invalid_code": "The code must be 4 to 12 digits."
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "in_range": {
+        "name": "In Bluetooth range"
+      }
+    },
+    "button": {
+      "flash_lights": {
+        "name": "Flash lights"
+      },
+      "flash_lights_and_horn": {
+        "name": "Flash lights and horn"
+      },
+      "open_boot": {
+        "name": "Open boot"
+      }
+    },
+    "sensor": {
+      "key_expires": {
+        "name": "Key expires"
+      }
+    }
+  },
+  "issues": {
+    "key_expiring": {
+      "title": "Bluetooth key for {name} expires soon",
+      "description": "The Bluetooth key for {name} is valid until {date}. After that the car will refuse it. Provision a new key before then, and replace it from the integration's menu (Reconfigure)."
+    },
+    "key_expired": {
+      "title": "Bluetooth key for {name} has expired",
+      "description": "The Bluetooth key for {name} expired on {date}, so the car will refuse it. Provision a new key and replace it from the integration's menu (Reconfigure). Until then, lock and unlock use the cloud fallback if you set one."
+    }
+  },
+  "selector": {
+    "country": {
+      "options": {
+        "au": "Australia (tried on a real car)",
+        "nz": "New Zealand (untested)",
+        "kr": "South Korea (untested)"
+      }
+    }
+  }
+}

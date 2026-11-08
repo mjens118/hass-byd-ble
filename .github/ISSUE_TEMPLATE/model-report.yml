@@ -1,0 +1,75 @@
+name: Model and region report
+description: Tell me whether this works on your car, whether it did or not. Only an AU Sealion 8 is verified so far.
+title: "[Model]: "
+labels: ["model-report"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you. Reports for other models and regions are the most useful thing you can give this project.
+        Test with the car parked, and keep your physical key with you.
+
+        **Never paste your `credentials.json`, `dkey` or the car's Bluetooth address.**
+  - type: input
+    id: car
+    attributes:
+      label: Car, model year and trim
+      placeholder: BYD Sealion 8, 2025, Premium
+    validations:
+      required: true
+  - type: input
+    id: region
+    attributes:
+      label: Country or region the car was sold in
+      placeholder: Australia
+    validations:
+      required: true
+  - type: input
+    id: ha-version
+    attributes:
+      label: Home Assistant version
+      placeholder: 2026.x.x
+    validations:
+      required: true
+  - type: dropdown
+    id: adapter
+    attributes:
+      label: Bluetooth adapter
+      options:
+        - Built into the host (Raspberry Pi or similar)
+        - USB Bluetooth adapter
+        - ESPHome Bluetooth proxy
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: setup
+    attributes:
+      label: Did setup work (the key was accepted by the car)?
+      options:
+        - "Yes"
+        - "No: the car was not found or would not connect"
+        - "No: the car refused the key"
+        - "I could not get a key"
+    validations:
+      required: true
+  - type: checkboxes
+    id: worked
+    attributes:
+      label: What worked on a real car?
+      options:
+        - label: Lock
+        - label: Unlock
+        - label: Flash lights
+        - label: Flash lights and horn
+        - label: Open boot
+  - type: textarea
+    id: odd
+    attributes:
+      label: Anything odd?
+      description: For example the door byte after a lock (`door_state_raw` on the lock), commands the car ignored, or connection drops.
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostics
+      description: Three-dot menu on the integration > Download diagnostics, then drag the file here. It contains what the car advertises and the last command result, and not your key or address.

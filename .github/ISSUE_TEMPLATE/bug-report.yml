@@ -1,0 +1,58 @@
+name: Bug report
+description: Something that should work on a car this integration already works on is not working.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        If your car is not an AU Sealion 8, please use the **Model and region report** instead. Only that car is verified.
+
+        **Never paste your `credentials.json`, `dkey` or the car's Bluetooth address.**
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. ...
+        2. ...
+  - type: input
+    id: ha-version
+    attributes:
+      label: Home Assistant version
+      placeholder: 2026.x.x
+    validations:
+      required: true
+  - type: input
+    id: integration-version
+    attributes:
+      label: Integration version
+      placeholder: 0.3.0
+    validations:
+      required: true
+  - type: dropdown
+    id: adapter
+    attributes:
+      label: Bluetooth adapter
+      options:
+        - Built into the host (Raspberry Pi or similar)
+        - USB Bluetooth adapter
+        - ESPHome Bluetooth proxy
+        - Other
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Enable debug logging for `custom_components.byd_ble` and paste the relevant lines. The key is never logged, but check before posting.
+      render: text
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostics
+      description: Three-dot menu on the integration > Download diagnostics, then drag the file here.

@@ -1,0 +1,28 @@
+{
+  "entity": {
+    "binary_sensor": {
+      "in_range": {
+        "default": "mdi:bluetooth-off",
+        "state": {
+          "on": "mdi:bluetooth-connect"
+        }
+      }
+    },
+    "button": {
+      "flash_lights": {
+        "default": "mdi:car-light-high"
+      },
+      "flash_lights_and_horn": {
+        "default": "mdi:bullhorn"
+      },
+      "open_boot": {
+        "default": "mdi:car-back"
+      }
+    },
+    "sensor": {
+      "key_expires": {
+        "default": "mdi:key-clock"
+      }
+    }
+  }
+}

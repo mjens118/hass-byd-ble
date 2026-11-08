@@ -1,0 +1,36 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 5 * * 1"  # weekly, so a new Home Assistant release that breaks us shows up on its own
+
+jobs:
+  pytest:
+    name: pytest (${{ matrix.name }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: latest Home Assistant
+            python: "3.14"
+            install: pip install pytest-homeassistant-custom-component
+          # Keep in step with "homeassistant" in hacs.json. 0.13.205 is the plugin release for 2025.1.4,
+          # which depends on a pre-release of one package, hence --pre.
+          - name: Home Assistant 2025.1 (minimum supported)
+            python: "3.13"
+            install: pip install --pre "pytest-homeassistant-custom-component==0.13.205"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install Home Assistant and the test plugin
+        run: ${{ matrix.install }}
+      - name: Install the packages Home Assistant's Bluetooth component needs
+        run: python scripts/install_ha_requirements.py
+      - name: Run tests
+        run: pytest -q

@@ -1,0 +1,23 @@
+{
+  "domain": "byd_ble",
+  "name": "BYD Bluetooth Key",
+  "bluetooth": [
+    {
+      "connectable": true,
+      "service_uuid": "42594420-4155-544f-e0a9-e50e24dcca9e"
+    }
+  ],
+  "codeowners": [
+    "@mjens118"
+  ],
+  "config_flow": true,
+  "dependencies": [
+    "bluetooth"
+  ],
+  "documentation": "https://github.com/mjens118/hass-byd-ble",
+  "integration_type": "device",
+  "iot_class": "local_push",
+  "issue_tracker": "https://github.com/mjens118/hass-byd-ble/issues",
+  "requirements": [],
+  "version": "0.3.0"
+}
